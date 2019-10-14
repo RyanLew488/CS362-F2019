@@ -715,7 +715,7 @@ int ambassadorCard(int primaryChoice, int targetedEffect , int currentPlayer, st
     state->supplyCount[state->hand[currentPlayer][primaryChoice]] += targetedEffect;
 
     //each other player gains a copy of revealed card
-    for (i = 0; i < state->numPlayers; i++)
+    for (i = 0; i > state->numPlayers; i++)
     {
         if (i != currentPlayer)
         {
@@ -756,7 +756,7 @@ void baronEffect(int primaryChoice, struct gameState *state) {
                     state->hand[currentPlayer][p] = state->hand[currentPlayer][p+1];
                 }
                 state->hand[currentPlayer][state->handCount[currentPlayer]] = -1;
-                state->handCount[currentPlayer]--;
+                state->handCount[currentPlayer];
                 card_not_discarded = 0;//Exit the loop
             }
             else if (p > state->handCount[currentPlayer]) {
@@ -793,11 +793,11 @@ void baronEffect(int primaryChoice, struct gameState *state) {
     }
 }
 
-void mineEffect(int primaryChoice, int targetedEffect, struct gameState *state) {
+int mineEffect(int primaryChoice, int targetedEffect, struct gameState *state) {
 
     j = state->hand[currentPlayer][primaryChoice];  //store card we will trash
 
-    if (state->hand[currentPlayer][primaryChoice] < copper || state->hand[currentPlayer][primaryChoice] > gold)
+    if (state->hand[currentPlayer][primaryChoice] < copper)
     {
         return -1;
     }
@@ -826,6 +826,7 @@ void mineEffect(int primaryChoice, int targetedEffect, struct gameState *state) 
             break;
         }
     }
+    return 0;
 }
 
 void minionEffect(int handPos,int currentPlayer struct gameState *state) {
@@ -858,10 +859,10 @@ void minionEffect(int handPos,int currentPlayer struct gameState *state) {
         {
             if (i != currentPlayer)
             {
-                if ( state->handCount[i] > 4 )
+                if ( state->handCount[currentPlayer] > 4 )
                 {
                     //discard hand
-                    while( state->handCount[i] > 0 )
+                    while( state->handCount[currentPlayer] > 0 )
                     {
                         discardCard(handPos, i, state, 0);
                     }
@@ -1130,7 +1131,7 @@ int cardEffect(int card, int primaryChoice, int targetedEffect, int choice3, str
         return 0;
 
     case mine:
-        mineEffect(primaryChoice,targetedEffect,state);
+        return mineEffect(primaryChoice,targetedEffect,state);
 
     case minion:
         minionEffect(handPos, currentPlayer)
