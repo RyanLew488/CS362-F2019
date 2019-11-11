@@ -5,19 +5,20 @@
 
 char inputChar()
 {
-    char randChar = ((rand() % 94) + 32);
-    return randChar;
+  char randChar = ((rand() % 94) + 32);
+  return randChar;
+
 }
 
 char *inputString()
 {
-    char* string = malloc(sizeof(char) * 20);
-    memset(string,'\0',20);
-    char rand;
+    char* string = malloc(sizeof(char) * 6);
+    memset(string,'\0',6);
+
     int i;
-    for(i = 0; i < 19; ++i){
-        rand = inputChar();
-        string[i]  = rand;
+
+    for(i = 0; i < 5; ++i) {
+        string[i] = (rand() % 16) + 101;
     }
 
     return string;
